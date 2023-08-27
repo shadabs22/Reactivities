@@ -1,3 +1,4 @@
+import React from 'react';
 import { Grid } from "semantic-ui-react";
 import ActivityList from "./ActivityList";
 import { useStore } from "../../../app/stores/store";

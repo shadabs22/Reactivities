@@ -1,3 +1,4 @@
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 import {Button, Header, Item, Segment, Image} from 'semantic-ui-react'
 import { Activity } from '../../../app/layout/models/activity';

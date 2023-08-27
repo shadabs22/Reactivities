@@ -1,3 +1,4 @@
+import React from 'react';
 import { observer } from 'mobx-react-lite'
 import {Segment, Header, Comment, Form, Button} from 'semantic-ui-react'
 

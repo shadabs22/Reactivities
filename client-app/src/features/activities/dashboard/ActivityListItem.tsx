@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from "react-router-dom";
 import { Item, Button, Segment, Icon } from "semantic-ui-react";
 import { Activity } from "../../../app/layout/models/activity";

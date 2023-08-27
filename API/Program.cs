@@ -1,4 +1,5 @@
 using API.Extensions;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -13,6 +14,7 @@ builder.Services.AddApplicationServices(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -29,7 +31,7 @@ app.MapControllers();
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
-try 
+try
 {
     var context = services.GetRequiredService<DataContext>();
     // var userManager = services.GetRequiredService<UserManager<AppUser>>();
