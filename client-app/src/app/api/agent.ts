@@ -1,10 +1,10 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosHeaders, AxiosRequestHeaders, AxiosResponse, RawAxiosRequestHeaders } from "axios";
 import { Activity } from "../layout/models/activity";
 import { toast } from "react-toastify";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
+import { User, UserFormValues } from "../models/user";
 
-const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 const sleep = async (delay: number) => {
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
@@ -12,6 +12,15 @@ const sleep = async (delay: number) => {
 };
 
 axios.defaults.baseURL = "http://localhost:5000/api";
+
+const responseBody = <T>(response: AxiosResponse<T>) => response.data;
+
+axios.interceptors.request.use( async (request)=>{
+  const token = store.commonStore.token;
+  request.headers = { ...request.headers } as AxiosHeaders;
+  if (token && request.headers) (request.headers as AxiosRequestHeaders)["Authorization"] = `Bearer ${token}`;
+  return request;
+});
 
 axios.interceptors.response.use(
   async (response) => {
@@ -71,8 +80,15 @@ const Activities = {
     axios.put(`/activities/${activity.id}`, activity),
   delete: (id: string) => axios.delete(`/activities/${id}`),
 };
+const Account = {
+  current: () => requests.get<User>('/account'),
+  login: (user: UserFormValues) => requests.post<User>('/account/login',  user),
+  register: (user: UserFormValues) => requests.post<User>('/account/register', user)
+  }
+
 
 const agent = {
-  Activities,
+  Activities, 
+  Account
 };
 export default agent;

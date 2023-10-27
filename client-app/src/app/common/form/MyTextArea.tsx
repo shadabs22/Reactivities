@@ -16,7 +16,7 @@ export default function MyTextArea(props: Props){
 const [field, meta]=useField(props.name);
 return (
     <Form.Field>
-        <label>{props.name}</label>
+        {/* <label>{props.name}</label> */}
         <textarea {...field} {...props} />
         {meta.touched && meta.error ? (
             <Label basic color='red'>{meta.error}</Label>

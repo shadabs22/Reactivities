@@ -16,7 +16,7 @@ export default function MySelectInput(props: Props){
 const [field, meta, helpers]=useField(props.name);
 return (
     <Form.Field>
-        <label>{props.name}</label>
+        {/* <label>{props.name}</label> */}
         <Select 
             clearable 
             options={props.option} 

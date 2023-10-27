@@ -45,4 +45,8 @@ body {
   font-weight: normal;
 }
 
+.modalFormPadding{
+  padding: 5%;
+}
+
 /*end home page styles*/
