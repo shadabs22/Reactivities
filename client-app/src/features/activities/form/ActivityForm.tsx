@@ -3,7 +3,7 @@ import { Button, Header, Segment } from "semantic-ui-react";
 import { useEffect, useState } from "react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
-import { Activity } from "../../../app/layout/models/activity";
+import { ActivityFormValues } from "../../../app/layout/models/activity";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { Formik, Form } from 'formik';
@@ -19,18 +19,10 @@ import MyDateInput from '../../../app/common/form/MyDateInput';
 
 export default observer( function ActivityForm(){
     const {activityStore} = useStore();
-    const {createActivity, updateActivity, loading, loadActivity, loadingInitial} = activityStore;
+    const {createActivity, updateActivity, loadActivity, loadingInitial} = activityStore;
     const {id}=useParams();
     const nvigate= useNavigate();
-    const [activity, setActivity]=useState<Activity>({
-        id:'',
-        title:'',
-        category:'',
-        description:'',
-        date:null,
-        city:'',
-        venue:''
-    });
+    const [activity, setActivity]=useState<ActivityFormValues>(new ActivityFormValues());
     
 const validationSchema=Yup.object({
     title: Yup.string().required('The activity title is requried'),
@@ -42,10 +34,10 @@ const validationSchema=Yup.object({
 })
 
     useEffect(()=>{
-        if(id) loadActivity(id).then(activity=>setActivity(activity!));
+        if(id) loadActivity(id).then(activity=>setActivity(new ActivityFormValues(activity)));
     });
 
-    function handleSubmit(activity: Activity){
+    function handleSubmit(activity: ActivityFormValues){
         if(!activity.id){
             activity.id = uuid();
             createActivity(activity).then(()=>nvigate(`/activities/${activity.id}`));
@@ -80,7 +72,7 @@ const validationSchema=Yup.object({
                     <MyTextInput placeholder='Venue' name='venue' />
                     <Button 
                     disabled={isSubmitting || !dirty || !isValid}
-                        loading={loading} floated='right' 
+                        loading={isSubmitting} floated='right' 
                         positive type='submit' content='Submit' />
                     <Button as={Link} to={"/activities"} floated='right' type='button' content='Cancel' />
                 </Form>
