@@ -5,7 +5,7 @@ import { store } from "./store";
 import { router } from "../router/Routes";
 
 export default class UserStore {
-  user: User | null  = null;
+  user: User | null = null;
   constructor() {
     makeAutoObservable(this);
   }
@@ -45,10 +45,18 @@ export default class UserStore {
 
   getUser = async () => {
     try {
-      const user = await agent.Account.current().then(res => {runInAction(() => {this.user = res})});
+      const user = await agent.Account.current().then((res) => {
+        runInAction(() => {
+          this.user = res;
+        });
+      });
       //runInAction(() => (this.user = user));
     } catch (error) {
       console.error(error);
     }
+  };
+
+  setImage = (image: string) => {
+    if (this.user) this.user.image = image;
   };
 }
