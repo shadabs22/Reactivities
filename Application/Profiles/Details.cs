@@ -4,9 +4,8 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
-using Profile = Application.Profiles.Profile;
 
-namespace Application.Photos
+namespace Application.Profiles
 {
     public class Details
     {
